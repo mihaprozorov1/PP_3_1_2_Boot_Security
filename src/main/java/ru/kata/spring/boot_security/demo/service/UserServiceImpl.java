@@ -75,8 +75,11 @@ public class UserServiceImpl implements UserService{
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
     }
 
-    public User getInfoByUser(long id, String username, String password) {
+    public User getInfoByUser(String username) {
         User user = userRepository.getUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+        }
         return user;
     }
 }

@@ -16,7 +16,7 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping("/admin")
 public class AdminController {
 
 private final UserServiceImpl userServiceImpl;
@@ -27,7 +27,7 @@ private final UserServiceImpl userServiceImpl;
     }
 
     //	Все Юзеры
-    @GetMapping(value = "/")
+    @GetMapping({"", "/"})
     public String getAllUser(Model model) {
         List<User> userList = userServiceImpl.listUsers();
         model.addAttribute("users", userList);
@@ -42,8 +42,9 @@ private final UserServiceImpl userServiceImpl;
     }
 
     //	Добавить Юзера
-    @GetMapping(value = "/new")
+    @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
+        System.out.println("Зашел в метод newUser");
         return "new";
     }
 
@@ -67,7 +68,7 @@ private final UserServiceImpl userServiceImpl;
     }
 
     //   Удалить Юзера
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping( value = "/delete", method = RequestMethod.GET)
     public String deleteUser(@RequestParam("id") int id) {
         userServiceImpl.delete(id);
         return "redirect:/";

@@ -23,13 +23,13 @@
         <td th:text="${user.password}">Password</td>
         <td th:text="${user.email}">Email</td>
         <td>
-            <a th:href="@{'/edit?id=' + ${user.id}}" class="btn btn-warning">Update</a>
+            <a th:href="@{'/admin/edit?id=' + ${user.id}}" class="btn btn-warning">Update</a>
         </td>
         <td>
-            <a th:href="@{'/delete?id=' + ${user.id}}" class="btn btn-danger">Delete</a>
+            <a th:href="@{'/admin/delete?id=' + ${user.id}}" class="btn btn-danger">Delete</a>
         </td>
     </tbody>
 </table>
-<a href="/new">Create new user</a>
+<a href="/admin/new">Create new user</a>
 </body>
 </html>

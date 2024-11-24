@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
-
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-private final UserServiceImpl userServiceImpl;
+    private final UserServiceImpl userServiceImpl;
 
-@Autowired
+    @Autowired
     public AdminController(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
@@ -44,14 +43,13 @@ private final UserServiceImpl userServiceImpl;
     //	Добавить Юзера
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user) {
-        System.out.println("Зашел в метод newUser");
         return "new";
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     public String create(@ModelAttribute("user") User user) {
         userServiceImpl.save(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     //  Изменить Юзера
@@ -64,13 +62,13 @@ private final UserServiceImpl userServiceImpl;
     @PostMapping("/edit")
     public String update(@RequestParam("id") int id, @ModelAttribute("user") User user) {
         userServiceImpl.edit(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     //   Удалить Юзера
-    @RequestMapping( value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteUser(@RequestParam("id") int id) {
         userServiceImpl.delete(id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }

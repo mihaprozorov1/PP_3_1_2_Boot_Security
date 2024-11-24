@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.initializer;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.entity.Role;
@@ -10,7 +9,6 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-
 
 @Component
 public class InitDb {
@@ -48,6 +46,5 @@ public class InitDb {
         userRepository.save(user);
 
         System.out.println("Тестовые пользователи и роли успешно добавлены в БД.");
-
     }
 }

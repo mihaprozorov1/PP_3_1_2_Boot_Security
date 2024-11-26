@@ -8,6 +8,7 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -36,10 +37,10 @@ public class InitDb {
 
         // Создаем пользователей
         User admin = new User("admin", "admin@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
-        admin.setRoles(List.of(adminRole, userRole));
+        admin.setRoles(new HashSet<>(List.of(adminRole, userRole)));
 
         User user = new User("user", "user@example.com","$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
-        user.setRoles(List.of(userRole));
+        user.setRoles(new HashSet<>(List.of(userRole)));
 
         // Сохраняем пользователей
         userRepository.save(admin);

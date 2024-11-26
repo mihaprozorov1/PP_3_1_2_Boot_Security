@@ -13,10 +13,12 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -63,19 +65,12 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = Optional.ofNullable(findByUsername(username))
-//                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
-//        return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
 
-        User user = findByUsername(username);
-        if(user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found" , username));
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+        return Optional.ofNullable(findByUsername(username))
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
     }
 

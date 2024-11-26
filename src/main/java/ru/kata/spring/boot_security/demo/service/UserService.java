@@ -18,4 +18,6 @@ public interface UserService extends UserDetailsService {
     void edit(User user);
 
     void delete(long id);
+
+    public User getInfoByUser(String username);
 }

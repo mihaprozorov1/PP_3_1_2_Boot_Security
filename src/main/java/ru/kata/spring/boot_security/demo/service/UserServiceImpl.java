@@ -63,6 +63,10 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        User user = Optional.ofNullable(findByUsername(username))
+//                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
+//        return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+
         User user = findByUsername(username);
         if(user == null) {
             throw new UsernameNotFoundException(String.format("User '%s' not found" , username));

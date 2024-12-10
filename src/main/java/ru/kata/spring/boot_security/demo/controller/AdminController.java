@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -47,7 +49,9 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") User user, @RequestParam("role")String roleName) {
+        Role role = userService.findRoleByName(roleName);
+        user.setRoles(Set.of(role));
         userService.save(user);
         return "redirect:/admin";
     }

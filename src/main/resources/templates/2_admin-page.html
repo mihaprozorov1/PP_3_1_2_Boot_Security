@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/2_admin-page.css">
+</head>
+<body>
+<!-- Footer -->
+<div class="footer">
+    <span>admin@mail.ru with roles: ADMIN USER</span>
+    <button class="logout-btn">Logout</button>
+</div>
+
+<!-- Content -->
+<div class="content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="admin-btn">Admin</button>
+        <!-- Сделал кнопку "User" ссылкой -->
+        <a href="7_user-information-page.html">
+            <button class="user-btn">User</button>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-title">Admin Panel</div>
+        <div class="tabs">
+            <!-- Сделал вкладку "Users Table" активной и переместил её на первое место -->
+            <div class="tab active">Users Table</div>
+            <!-- Сделал вкладку "New User" ссылкой и переместил её на второе место -->
+            <a href="3_add-new-user.html" class="tab new-user-tab">New User</a>
+        </div>
+        <div class="header">All users</div>
+        <div class="all-users">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>30</td>
+                    <td>john.doe@example.com</td>
+                    <td>Admin</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                    </td>
+                    <td>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jane</td>
+                    <td>Smith</td>
+                    <td>25</td>
+                    <td>jane.smith@example.com</td>
+                    <td>User</td>
+                    <td>
+                        <button class="edit-btn">Edit</button>
+                    </td>
+                    <td>
+                        <button class="delete-btn">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

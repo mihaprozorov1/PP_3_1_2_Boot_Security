@@ -32,6 +32,12 @@ public class User implements UserDetails {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "lastname")
+    private String lastName;
+
+    @Column(name = "age")
+    private Integer age;
+
     @Column(name = "email")
     private String email;
 
@@ -50,8 +56,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String lastName, Integer age, String email, String password) {
         this.username = username;
+        this.lastName = lastName;
+        this.age = age;
         this.email = email;
         this.password = password;
     }

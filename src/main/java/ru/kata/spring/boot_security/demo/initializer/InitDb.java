@@ -35,10 +35,10 @@ public class InitDb {
         roleRepository.save(userRole);
 
         // Создаем пользователей
-        User admin = new User("admin", "admin@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
+        User admin = new User("admin", "admin", 21, "admin@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
         admin.setRoles(List.of(adminRole, userRole));
 
-        User user = new User("user", "user@example.com","$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
+        User user = new User("user", "user", 32,"user@example.com","$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
         user.setRoles(List.of(userRole));
 
         // Сохраняем пользователей

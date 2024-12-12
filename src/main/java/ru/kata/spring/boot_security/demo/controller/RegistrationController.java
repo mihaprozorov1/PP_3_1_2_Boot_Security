@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.kata.spring.boot_security.demo.entity.User;
+import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.validation.Valid;
@@ -15,11 +16,11 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @Autowired
-    public RegistrationController(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/registration")

@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface UserService extends UserDetailsService {
     void edit(User user);
 
     void delete(long id);
+
+    public User getInfoByUser(String username);
+
+    public Role findRoleByName(String roleName);
+
+    public List<Role> getAllRoles();
 }

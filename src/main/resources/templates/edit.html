@@ -5,30 +5,67 @@
     <title>Edit User</title>
 </head>
 <body>
+
 <form th:method="post" th:action="@{/admin/edit(id=${user.id})}" th:object="${user}">
+    <!-- Открывает форму, которая отправляет данные методом POST. -->
+    <!-- Атрибут th:action="@{/admin/edit(id=${user.id})}" определяет URL для отправки данных. ID пользователя передаётся в строке запроса. -->
+    <!-- Атрибут th:object="${user}" связывает объект user с полями формы, чтобы данные из формы привязывались к соответствующим полям объекта. -->
+
     <input type="hidden" th:field="*{id}"/>
+    <!-- Скрытое поле, в котором передаётся идентификатор пользователя. Это нужно для корректного обновления данных на сервере. -->
 
     <label for="name">Enter name: </label>
+    <!-- Создаёт текстовую метку для поля ввода имени. Атрибут for="name" связывает метку с полем id="name". -->
     <input type="text" th:field="*{username}" id="name"/>
+    <!-- Поле для ввода имени пользователя. th:field="*{username}" связывает поле с атрибутом username объекта user. -->
     <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</div>
-    <br/>
-
-    <label for="email">Enter email: </label>
-    <input type="text" th:field="*{email}" id="email"/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+    <!-- Блок для отображения ошибок, связанных с именем. Если у поля username есть ошибки, они выводятся в этом блоке. -->
     <br/>
 
     <label for="password">Enter password: </label>
+    <!-- Метка для поля ввода пароля. -->
     <input type="text" th:field="*{password}" id="password"/>
+    <!-- Поле для ввода пароля. th:field="*{password}" связывает поле с атрибутом password объекта user. -->
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+    <!-- Блок для отображения ошибок, связанных с паролем. Если у поля password есть ошибки, они выводятся в этом блоке. -->
+    <br/>
+
+    <label for="email">Enter email: </label>
+    <!-- Метка для поля ввода email. -->
+    <input type="text" th:field="*{email}" id="email"/>
+    <!-- Поле для ввода email пользователя. th:field="*{email}" связывает поле с атрибутом email объекта user. -->
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+    <!-- Блок для отображения ошибок, связанных с email. Если у поля email есть ошибки, они выводятся в этом блоке. -->
+    <br/>
+    <!-- Поля для имени, пароля и email остаются без изменений -->
+    <label for="role">Select Role: </label>
+    <select id="role" name="role">
+        <option th:each="role : ${roles}" th:value="${role.roleName}" th:text="${role.roleName}">
+            Role
+        </option>
+    </select>
+    <!-- Генерируется выпадающий список с доступными ролями -->
     <br/>
 
     <input type="submit" value="Update!"/>
+    <!-- Кнопка для отправки формы. Атрибут value="Update!" задаёт текст кнопки. -->
 </form>
-</body>
+
 <br/>
+
+<div>
+    <a href="/admin">
+        <button class="button-cancel">Cancel</button>
+        <!-- Кнопка для возврата на главную страницу администратора. -->
+    </a>
+</div>
+
 <br/>
+
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
+    <!-- Форма для выхода из системы. Атрибут th:action="@{/logout}" задаёт URL для обработки выхода. -->
 </form>
+
+</body>
 </html>

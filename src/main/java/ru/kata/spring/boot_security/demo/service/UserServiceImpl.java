@@ -9,20 +9,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -44,13 +49,29 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public void edit(User user) {
-        userRepository.update(user.getUsername(), user.getEmail(), user.getId());
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setRoles(user.getRoles());
+        userRepository.save(existingUser);
     }
 
     @Transactional
     @Override
     public void delete(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Role findRoleByName(String roleName) {
+        return roleRepository.findByRoleName(roleName).orElseThrow(() ->
+                new IllegalArgumentException("Role not found: " + roleName));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 
     //Этот метод ищет пользователя по имени с помощью userRepository и возвращает объект User, если пользователь найден.
@@ -63,15 +84,12 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
-        if(user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found" , username));
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+
+        return Optional.ofNullable(findByUsername(username))
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
     }
 

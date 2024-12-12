@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     public User getInfoByUser(String username);
 
     public Role findRoleByName(String roleName);
+
+    public List<Role> getAllRoles();
 }

@@ -49,7 +49,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void edit(User user) {
-        userRepository.update(user.getUsername(), user.getEmail(), user.getId());
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        existingUser.setUsername(user.getUsername());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setRoles(user.getRoles());
+        userRepository.save(existingUser);
     }
 
     @Transactional
@@ -62,6 +67,11 @@ public class UserServiceImpl implements UserService {
     public Role findRoleByName(String roleName) {
         return roleRepository.findByRoleName(roleName).orElseThrow(() ->
                 new IllegalArgumentException("Role not found: " + roleName));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 
     //Этот метод ищет пользователя по имени с помощью userRepository и возвращает объект User, если пользователь найден.

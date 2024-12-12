@@ -81,6 +81,7 @@ public class AdminController {
     @GetMapping("/edit")
     public String edit(Model model, @RequestParam("id") int id) {
         model.addAttribute("user", userService.getById(id));
+        model.addAttribute("roles", userService.getAllRoles());
         return "edit";
     }
     //@GetMapping("/edit"): Обрабатывает GET-запросы к /admin/edit.
@@ -89,8 +90,12 @@ public class AdminController {
     //return "edit";: Возвращает имя представления edit.
 
     @PostMapping("/edit")
-    public String update(@RequestParam("id") int id, @ModelAttribute("user") User user) {
-        userService.edit(user);
+    public String update(@RequestParam("id") int id,
+                         @ModelAttribute("user") User user,
+                         @RequestParam("role") String roleName) {
+        Role role = userService.findRoleByName(roleName); // Находим роль по имени
+        user.setRoles(Set.of(role)); // Присваиваем выбранную роль пользователю
+        userService.edit(user); // Обновляем данные пользователя
         return "redirect:/admin";
     }
     //@PostMapping("/edit"): Обрабатывает POST-запросы к /admin/edit.

@@ -37,6 +37,15 @@
     <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
     <!-- Блок для отображения ошибок, связанных с email. Если у поля email есть ошибки, они выводятся в этом блоке. -->
     <br/>
+    <!-- Поля для имени, пароля и email остаются без изменений -->
+    <label for="role">Select Role: </label>
+    <select id="role" name="role">
+        <option th:each="role : ${roles}" th:value="${role.roleName}" th:text="${role.roleName}">
+            Role
+        </option>
+    </select>
+    <!-- Генерируется выпадающий список с доступными ролями -->
+    <br/>
 
     <input type="submit" value="Update!"/>
     <!-- Кнопка для отправки формы. Атрибут value="Update!" задаёт текст кнопки. -->

@@ -6,31 +6,67 @@
 </head>
 <body>
 
+<!-- Форма для создания нового пользователя -->
 <form th:method="POST" th:action="@{/admin/new}" th:object="${user}">
+    <!-- Открывает форму, которая отправляет данные методом POST. -->
+    <!-- Атрибут th:action="@{/admin/new}" определяет URL для отправки данных. -->
+    <!-- Атрибут th:object="${user}" связывает объект user с полями формы, чтобы данные из формы привязывались к соответствующим полям объекта. -->
+
+    <!-- Поле для ввода имени -->
     <label for="name">Enter name: </label>
+    <!-- Создаёт текстовую метку для поля ввода имени. Атрибут for="name" связывает метку с полем id="name". -->
     <input type="text" th:field="*{username}" id="name"/>
+    <!-- Поле для ввода имени пользователя. th:field="*{username}" связывает поле с атрибутом username объекта user. -->
     <br/>
+
+    <!-- Поле для ввода пароля -->
     <label for="password">Enter password: </label>
+    <!-- Метка для поля ввода пароля. -->
     <input type="text" th:field="*{password}" id="password"/>
+    <!-- Поле для ввода пароля пользователя. th:field="*{password}" связывает поле с атрибутом password объекта user. -->
     <br/>
+
+    <!-- Поле для ввода email -->
     <label for="email">Enter email: </label>
+    <!-- Метка для поля ввода email. -->
     <input type="text" th:field="*{email}" id="email"/>
+    <!-- Поле для ввода email пользователя. th:field="*{email}" связывает поле с атрибутом email объекта user. -->
     <br/>
+
+    <!-- Выпадающий список для выбора роли -->
     <label for="role">Role:</label>
+    <!-- Создаёт метку для выпадающего списка роли. -->
     <select id="role" name="role">
         <option value="ROLE_USER">User</option>
+        <!-- Опция для выбора роли пользователя -->
         <option value="ROLE_ADMIN">Admin</option>
+        <!-- Опция для выбора роли администратора -->
     </select>
-    <br/>
+    <!-- Выпадающий список для выбора роли, который будет привязан к полю role объекта user. -->
+    <br/><br/>
+
+    <!-- Кнопка для отправки формы -->
     <input type="submit" value="Create!"/>
+    <!-- Кнопка для отправки формы с текстом "Create!" -->
     <br/>
 </form>
 
 <br/>
+
+<!-- Секция для возврата на главную страницу администратора -->
+<div>
+    <a href="/admin">
+        <button class="button-cancel">Cancel</button>
+        <!-- Кнопка для возврата на главную страницу администратора. -->
+    </a>
+</div>
+
 <br/>
-<br/>
+
+<!-- Форма для выхода из системы -->
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
+    <!-- Кнопка для завершения сеанса пользователя. -->
 </form>
 
 </body>

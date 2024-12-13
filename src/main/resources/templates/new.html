@@ -13,10 +13,19 @@
     <!-- Атрибут th:object="${user}" связывает объект user с полями формы, чтобы данные из формы привязывались к соответствующим полям объекта. -->
 
     <!-- Поле для ввода имени -->
-    <label for="name">Enter name: </label>
+    <label for="name">First Name: </label>
     <!-- Создаёт текстовую метку для поля ввода имени. Атрибут for="name" связывает метку с полем id="name". -->
     <input type="text" th:field="*{username}" id="name"/>
     <!-- Поле для ввода имени пользователя. th:field="*{username}" связывает поле с атрибутом username объекта user. -->
+    <br/>
+
+    <!-- Поле для ввода второго имени -->
+    <label for="lastName">Last Name: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <br/>
+<!-- Поле для ввода возраста-->
+    <label for="age">Age: </label>
+    <input type="text" th:field="*{age}" id="age"/>
     <br/>
 
     <!-- Поле для ввода пароля -->

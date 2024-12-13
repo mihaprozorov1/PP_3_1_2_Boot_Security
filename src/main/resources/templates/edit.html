@@ -22,6 +22,15 @@
     <!-- Блок для отображения ошибок, связанных с именем. Если у поля username есть ошибки, они выводятся в этом блоке. -->
     <br/>
 
+    <!-- Поле для ввода второго имени -->
+    <label for="lastName">Last Name: </label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
+    <br/>
+    <!-- Поле для ввода возраста-->
+    <label for="age">Age: </label>
+    <input type="text" th:field="*{age}" id="age"/>
+    <br/>
+
     <label for="password">Enter password: </label>
     <!-- Метка для поля ввода пароля. -->
     <input type="text" th:field="*{password}" id="password"/>

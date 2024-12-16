@@ -103,4 +103,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getRoleNames() {
+        return roles.stream()
+                .map(Role::getRoleName)
+                .collect(Collectors.joining(", "));
+    }
 }

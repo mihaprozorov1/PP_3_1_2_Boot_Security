@@ -120,7 +120,7 @@ public class AdminController {
     //return "redirect:/admin";: Перенаправляет пользователя обратно на страницу /admin.
 
 //    @GetMapping("/3_add-new-user")
-//    public String shouUserInfo2(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+//    public String shouUserInfoByAdminPanel(Model model, @AuthenticationPrincipal UserDetails currentUser) {
 //        User user = userService.getInfoByUser(currentUser.getUsername());
 //        model.addAttribute("currentUser", user);
 //        return "3_add-new-user";

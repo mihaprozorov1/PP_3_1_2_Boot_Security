@@ -20,15 +20,28 @@
     <span th:text="${currentUser.getId()}"/>
     <br>
 
-    <label>Name:</label>
+    <label>User Name:</label>
     <!-- Отображает имя пользователя, используя метод getUsername() объекта currentUser -->
     <span th:text="${currentUser.getUsername()}"/>
+    <br>
+
+    <label>Last Name:</label>
+    <span th:text="${currentUser.getLastName()}"/>
+    <br>
+
+    <label>Age:</label>
+    <span th:text="${currentUser.getAge()}"/>
     <br>
 
     <label>Surname:</label>
     <!-- Отображает email пользователя, используя метод getEmail() объекта currentUser -->
     <span th:text="${currentUser.getEmail()}"/>
     <br>
+
+    <label>Role:</label>
+    <span th:text="${currentUser.getRoleNames()}"/>
+    <br>
+
 </div>
 
 <br/>

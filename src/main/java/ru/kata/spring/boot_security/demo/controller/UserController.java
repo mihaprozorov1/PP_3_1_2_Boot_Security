@@ -26,6 +26,6 @@ public class UserController {
     public String shouUserInfo(Model model, @AuthenticationPrincipal UserDetails currentUser) {
         User user = (User) userService.getInfoByUser(currentUser.getUsername());
         model.addAttribute("currentUser", user);
-        return "shouUserInfo";
+        return "6_user-page";
     }
 }

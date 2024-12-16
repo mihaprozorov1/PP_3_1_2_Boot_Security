@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="css/7_user-information-page.css">
+<!--    <link rel="stylesheet" href="css/7_user-information-page.css">-->
     <style>
         /* Универсальные настройки для всех элементов страницы */
         * {
@@ -183,9 +183,6 @@
 <div class="content">
     <!-- Sidebar -->
     <div class="sidebar">
-        <a href="/admin">
-            <button class="admin-btn">Admin</button>
-        </a>
         <button class="user-btn">User</button>
     </div>
 
@@ -207,12 +204,12 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:text="${currentUserByAdmin.id}"></td>
-                    <td th:text="${currentUserByAdmin.username}"></td>
-                    <td th:text="${currentUserByAdmin.lastName}"></td>
-                    <td th:text="${currentUserByAdmin.age}"></td>
-                    <td th:text="${currentUserByAdmin.email}"></td>
-                    <td th:text="${currentUserByAdmin.roleNames}"></td>
+                    <td th:text="${currentUser.getId}"></td>
+                    <td th:text="${currentUser.getUsername}"></td>
+                    <td th:text="${currentUser.getLastName}"></td>
+                    <td th:text="${currentUser.getAge}"></td>
+                    <td th:text="${currentUser.getEmail}"></td>
+                    <td th:text="${currentUser.getRoleNames}"></td>
                 </tr>
                 </tbody>
             </table>

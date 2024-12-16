@@ -1,8 +1,11 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -119,10 +122,18 @@ public class AdminController {
     //userService.delete(id): Удаляет пользователя по его ID.
     //return "redirect:/admin";: Перенаправляет пользователя обратно на страницу /admin.
 
-//    @GetMapping("/3_add-new-user")
-//    public String shouUserInfoByAdminPanel(Model model, @AuthenticationPrincipal UserDetails currentUser) {
-//        User user = userService.getInfoByUser(currentUser.getUsername());
-//        model.addAttribute("currentUser", user);
-//        return "3_add-new-user";
-//    }
+    @GetMapping("/7_user-information-page")
+    public String show(Model model) {
+        // Получаем текущего авторизованного пользователя
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Получаем имя пользователя из Authentication
+
+        // Получаем информацию о пользователе по имени
+        User user = userService.getInfoByUser(username);
+
+        // Добавляем информацию о пользователе в модель
+        model.addAttribute("currentUserByAdmin", user);
+
+        return "7_user-information-page";
+    }
 }

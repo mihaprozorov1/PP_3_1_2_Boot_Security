@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <!-- <link rel="stylesheet" href="css/3_add-new-user.css"> -->
+    <style>/* Универсальные настройки */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .footer {
+        background-color: black;
+        color: white;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .footer .logout-btn {
+        background-color: black;
+        color: #999999;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    .footer .logout-btn:hover {
+        color: white;
+    }
+
+    .content {
+        display: flex;
+        flex: 1;
+    }
+
+    .sidebar {
+        width: 25%;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px 0 10px 0;
+    }
+
+    .sidebar button {
+        border: none;
+        padding: 13px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+        border-radius: 5px;
+        text-align: left;
+        transition: all 0.3s;
+    }
+
+    .sidebar .admin-btn {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .sidebar .user-btn {
+        background-color: white;
+        color: #007bff;
+    }
+
+    .sidebar .user-btn:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .main-content {
+        flex: 1;
+        background-color: #f7f7f7;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .header-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .tabs {
+        display: flex;
+        margin-bottom: 0;
+    }
+
+    .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        color: black;
+        background-color: #f7f7f7;
+        border: none;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .tab:hover {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .tab.new-user-tab {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .tab.new-user-tab:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .tab.active {
+        background-color: white;
+        color: black;
+        border: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .tab.users-table-tab {
+        background-color: none;
+        color: black;
+        border: none;
+        text-decoration: none;
+    }
+
+    .tab.users-table-tab:hover {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-bottom: none;
+    }
+
+    .header {
+        background-color: #f7f7f7;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        margin-top: 10px;
+    }
+
+    .form-container {
+        margin-top: 20px;
+        padding: 20px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+    }
+
+    /* Убираем стрелочки у input[type="number"] по умолчанию для всех браузеров */
+    .form-group input[type="number"]::-webkit-outer-spin-button,
+    .form-group input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .form-group input[type="number"] {
+        -moz-appearance: textfield; /* Firefox */
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+        background-color: #28a745; /* Green color */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-align: center;
+        display: block;
+        margin: 0 auto; /* Centering the button */
+    }
+
+    .submit-btn:hover {
+        background-color: #218838;
+    }
+
+    </style>
+</head>
+<body>
+
+<div class="footer">
+    <span>admin@mail.ru with roles: ADMIN USER</span>
+    <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<div class="content">
+    <div class="sidebar">
+        <button class="admin-btn">Admin</button>
+        <a href="7_user-information-page.html">
+            <button class="user-btn">User</button>
+        </a>
+    </div>
+    <div class="main-content">
+        <div class="header-title">Admin Panel</div>
+        <div class="tabs">
+            <a href="/admin" class="tab users-table-tab">Users Table</a>
+            <div class="tab active">New User</div>
+        </div>
+        <div class="header">Add New User</div>
+        <div class="form-container">
+            <form th:method="POST" th:action="@{/admin/3_add-new-user}" th:object="${user}">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" th:field="*{username}" id="first-name" name="first-name" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" th:field="*{lastName}" id="last-name" name="last-name" placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" th:field="*{age}" id="age" name="age" placeholder="Age" min="0" step="1">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" th:field="*{email}" id="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" th:field="*{password}" id="password" name="password" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role">
+                        <option value="ROLE_USER">USER</option>
+                        <option value="ROLE_ADMIN">ADMIN</option>
+                    </select>
+                </div>
+                <input type="submit" class="submit-btn" value="Create!"/>
+<!--                <button type="submit" class="submit-btn">Add New User</button>-->
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

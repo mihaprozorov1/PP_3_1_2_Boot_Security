@@ -29,7 +29,7 @@
 
         <th scope="col">Email</th>
         <!-- Ячейка таблицы с текстом "Email", которая будет служить заголовком для столбца с email-адресами пользователей. -->
-
+        <th scope="col">Role</th>
         <th scope="col">Update</th>
         <!-- Ячейка таблицы с текстом "Update", которая будет служить заголовком для столбца с кнопками для обновления данных пользователей. -->
 
@@ -59,16 +59,29 @@
         <td th:text="${user.email}">Email</td>
         <!-- Ячейка таблицы, которая будет содержать email-адрес пользователя.
         Значение подставляется с помощью выражения th:text="${user.email}". -->
-
-        <td>
-            <a th:href="@{'/admin/edit?id=' + ${user.id}}" class="btn btn-warning">Update</a>
-        </td>
+<!--        <td th:text="${user.role}">Role</td>-->
+<!--        <td>-->
+<!--            <a th:href="@{'/admin/edit?id=' + ${user.id}}" class="btn btn-warning">Update</a>-->
+<!--        </td>-->
         <!-- Ячейка для кнопки обновления данных пользователя. Ссылка на страницу редактирования
 пользователя с передачей его id через параметр в URL. Кнопка стилизована с помощью классов Bootstrap. -->
 
         <td>
-            <a th:href="@{'/admin/delete?id=' + ${user.id}}" class="btn btn-danger">Delete</a>
+            <button
+                    class="edit-btn"
+                    th:onclick="|location.href='/admin/edit?id=' + ${user.id}|">
+                Edit
+            </button>
         </td>
+
+        <td><button class="delete-btn"
+                    th:onclick="|location.href='/admin/delete?id=' + ${user.id}|">
+            Delete</button></td>
+    </tr>
+
+<!--        <td>-->
+<!--            <a th:href="@{'/admin/delete?id=' + ${user.id}}" class="btn btn-danger">Delete</a>-->
+<!--        </td>-->
         <!-- Ячейка для кнопки удаления пользователя. Ссылка на страницу удаления пользователя с передачей
         его id через параметр в URL. Кнопка стилизована как кнопка опасного действия с помощью классов Bootstrap. -->
 

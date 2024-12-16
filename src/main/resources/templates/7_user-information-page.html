@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/7_user-information-page.css">
+    <style>
+        /* Универсальные настройки для всех элементов страницы */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Настройки для основного тега body */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Стиль для футера */
+        .footer {
+            background-color: black;
+            color: white;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .footer .logout-btn {
+            background-color: black;
+            color: #999999;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer .logout-btn:hover {
+            color: white;
+        }
+
+        /* Основной контейнер для контента */
+        .content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Левая боковая панель */
+        .sidebar {
+            width: 25%;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px 0 10px 0;
+        }
+
+        /* Кнопка Admin */
+        .sidebar .admin-btn {
+            background-color: white;
+            color: #007bff;
+            border: none;
+            padding: 13px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            text-align: left;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar .admin-btn:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Кнопка User */
+        .sidebar .user-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 13px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            text-align: left;
+            border-radius: 5px;
+        }
+
+        .sidebar .user-btn:hover {
+            background-color: #007bff; /* Ничего не меняется */
+            color: white;
+        }
+
+        /* Правая часть с основным контентом */
+        .main-content {
+            flex: 1;
+            background-color: #f7f7f7;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Заголовок панели администратора */
+        .header-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        /* Блок под вкладками */
+        .header {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-top: none;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        /* Блок "All users" */
+        .all-users {
+            border: 1px solid #ddd;
+            border-top: none;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        /* Заголовки и ячейки таблицы */
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        /* Стиль для заголовков таблицы */
+        th {
+            background-color: #f4f4f4;
+        }
+
+        /* Чередование цвета строк таблицы */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        /* Hover-эффект для строк таблицы */
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Footer -->
+<div class="footer">
+    <span>admin@mail.ru with roles: ADMIN USER</span>
+    <button class="logout-btn">Logout</button>
+</div>
+
+<!-- Content -->
+<div class="content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="2_admin-page.html">
+            <button class="admin-btn">Admin</button>
+        </a>
+        <button class="user-btn">User</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-title">User information-page</div>
+        <div class="header">About user</div>
+        <div class="all-users">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2</td>
+                    <td>Jane</td>
+                    <td>Smith</td>
+                    <td>25</td>
+                    <td>jane.smith@example.com</td>
+                    <td>User</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

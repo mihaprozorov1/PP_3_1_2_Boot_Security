@@ -25,10 +25,12 @@
     <!-- Поле для ввода второго имени -->
     <label for="lastName">Last Name: </label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">LastName Error</div>
     <br/>
     <!-- Поле для ввода возраста-->
     <label for="age">Age: </label>
     <input type="text" th:field="*{age}" id="age"/>
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
     <br/>
 
     <label for="password">Enter password: </label>

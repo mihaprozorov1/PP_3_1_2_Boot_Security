@@ -20,7 +20,7 @@ public interface UserService extends UserDetailsService {
 
     void delete(long id);
 
-    public User getInfoByUser(String username);
+    public User getInfoByUser(String email);
 
     public Role findRoleByName(String roleName);
 

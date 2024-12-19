@@ -41,7 +41,7 @@ public class User implements UserDetails {
     @Column(name = "age")
     private Integer age;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @Size(min = 2, message = "Не меньше 5 знаков")

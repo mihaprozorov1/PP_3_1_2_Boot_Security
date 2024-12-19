@@ -126,10 +126,10 @@ public class AdminController {
     public String show(Model model) {
         // Получаем текущего авторизованного пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // Получаем имя пользователя из Authentication
-
+        String email = authentication.getName(); // Получаем имя пользователя из Authentication
+        System.out.println(email);
         // Получаем информацию о пользователе по имени
-        User user = userService.getInfoByUser(username);
+        User user = userService.getInfoByUser(email);
 
         // Добавляем информацию о пользователе в модель
         model.addAttribute("currentUserByAdmin", user);

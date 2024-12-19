@@ -36,7 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .anyRequest().authenticated() // любой запрос, который не подходит под предыдущие правила, требует аутентификации.
                 .and()
-                .formLogin().successHandler(successUserHandler)//.formLogin() — активирует стандартную форму входа Spring Security.
+                .formLogin()
+                .loginPage("/login")
+                .usernameParameter("email")
+                .successHandler(successUserHandler)//.formLogin() — активирует стандартную форму входа Spring Security.
                 //.successHandler(successUserHandler) — это обработчик, который будет вызван после успешной аутентификации. Он, вероятно,
                 // выполняет дополнительные действия, например, перенаправление пользователя на определенную страницу или запись в лог.
                 .permitAll()//.permitAll() — указывает, что доступ к странице входа (обычно /login) открыт для всех пользователей.

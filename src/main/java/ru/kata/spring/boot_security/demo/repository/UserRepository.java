@@ -27,6 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     void deleteById(Long id);//void delete(int id);
 
-    @Query("select u from User u left join fetch u.roles where u.username=:username")
-    User getUserByUsername(@Param("username") String username);
+    @Query("select u from User u left join fetch u.roles where u.email=:email")
+    User getUserByUsername(@Param("email") String email);
+
+    Optional<User> findByEmail(String email);
 }

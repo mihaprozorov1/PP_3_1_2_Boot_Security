@@ -173,7 +173,7 @@
 <body>
 <!-- Footer -->
 <div class="footer">
-    <span>admin@mail.ru with roles: ADMIN USER</span>
+    <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
     <form th:action="@{/logout}" method="post" style="display: inline;">
         <button type="submit" class="logout-btn">Logout</button>
     </form>

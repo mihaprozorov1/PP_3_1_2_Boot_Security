@@ -355,7 +355,7 @@
 <body>
 <!-- Footer -->
 <div class="footer">
-<!--    <span>admin@mail.ru with roles: ADMIN USER</span>-->
+    <!--    <span>admin@mail.ru with roles: ADMIN USER</span>-->
     <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
     <form th:action="@{/logout}" method="post" style="display: inline;">
         <button type="submit" class="logout-btn">Logout</button>
@@ -393,33 +393,26 @@
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                 </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="user : ${users}">
-                                <td th:text="${user.id}">Id</td>
-                                <td th:text="${user.username}">Name</td>
-                                <td th:text="${user.lastName}">Last Name</td>
-                                <td th:text="${user.age}">Age</td>
-                                <td th:text="${user.email}">Email</td>
-                                <td th:text="${user.roleNames}">Role</td>
-                                <td>
-                                    <button
-                                            class="edit-btn"
-                                            th:onclick="|location.href='/admin/edit?id=' + ${user.id}|">
-                                        Edit
-                                    </button>
-                                </td>
-                                <td><button class="delete-btn"
-                                            th:onclick="|location.href='/admin/delete?id=' + ${user.id}|">
-                                Delete</button></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}">Id</td>
+                    <td th:text="${user.username}">Name</td>
+                    <td th:text="${user.lastName}">Last Name</td>
+                    <td th:text="${user.age}">Age</td>
+                    <td th:text="${user.email}">Email</td>
+                    <td th:text="${user.roleNames}">Role</td>
+                    <td><button class="edit-btn">Edit</button></td>
+                    <td><button class="delete-btn">Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-            <!-- Edit Modal -->
+
+<!-- Edit Modal -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>

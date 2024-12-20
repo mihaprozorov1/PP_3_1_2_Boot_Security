@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.validation.Valid;
 
@@ -43,7 +42,6 @@ public class RegistrationController {
 //            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
 //            return "registration";
 //        }
-
         return "redirect:/";
     }
 }

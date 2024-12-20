@@ -26,6 +26,4 @@ public class MainController {
     public String pageForAuthenticatedUser(Principal principal) {
         return "secured part of web service" + principal.getName();
     }
-
-
 }

@@ -18,6 +18,7 @@ import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -102,7 +103,7 @@ public class AdminController {
                          @ModelAttribute("user") User user,
                          @RequestParam("role") String roleName) {
         Role role = userService.findRoleByName(roleName); // Находим роль по имени
-        user.setRoles(Set.of(role)); // Присваиваем выбранную роль пользователю
+        user.setRoles(new HashSet<>(Set.of(role))); // Присваиваем выбранную роль пользователю
         userService.edit(user); // Обновляем данные пользователя
         return "redirect:/admin";
     }

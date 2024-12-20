@@ -402,8 +402,16 @@
                     <td th:text="${user.age}">Age</td>
                     <td th:text="${user.email}">Email</td>
                     <td th:text="${user.roleNames}">Role</td>
-                    <td><button class="edit-btn">Edit</button></td>
-                    <td><button class="delete-btn">Delete</button></td>
+                    <td>
+                        <button class="edit-btn" onclick="document.getElementById('editModal').style.display = 'block'">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="delete-btn"
+                                onclick="document.getElementById('deleteModal').style.display = 'block'">Delete
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -417,7 +425,7 @@
     <div class="modal-content">
         <span class="close-btn">&times;</span>
         <h2>Edit User</h2>
-        <form id="editForm">
+        <form id="editForm" method="POST" action="/admin/edit">
             <label for="userId">ID:</label>
             <input type="text" id="userId" name="userId" readonly>
 
@@ -435,8 +443,8 @@
 
             <label for="role">Role:</label>
             <select id="role" name="role" required>
-                <option value="Admin">Admin</option>
-                <option value="User">User</option>
+                <option value="ROLE_ADMIN">Admin</option>
+                <option value="ROLE_USER">User</option>
             </select>
 
             <div class="modal-actions">
@@ -452,7 +460,7 @@
     <div class="modal-content">
         <span class="close-btn">&times;</span>
         <h2>Delete User</h2>
-        <form id="deleteForm">
+        <form id="deleteForm" method="delete" action="/admin/delete">
             <label for="deleteUserId">ID:</label>
             <input type="text" id="deleteUserId" name="userId" readonly>
 
@@ -500,6 +508,7 @@
                 document.getElementById("lastName").value = cells[2].innerText;
                 document.getElementById("age").value = cells[3].innerText;
                 document.getElementById("email").value = cells[4].innerText;
+                console.log(cells[5].innerText)
                 document.getElementById("role").value = cells[5].innerText;
 
                 editModal.style.display = "block";

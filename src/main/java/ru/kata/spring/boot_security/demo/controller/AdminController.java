@@ -2,10 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -70,9 +67,9 @@ public class AdminController {
     //@ModelAttribute("user") User user: Создаёт пустой объект User и добавляет его в модель под именем user.
     //return "new";: Возвращает имя представления new.
 
-//    @PostMapping("/new")
+    //    @PostMapping("/new")
     @PostMapping("/3_add-new-user")
-    public String create(@ModelAttribute("user") User user, @RequestParam("role")String roleName) {
+    public String create(@ModelAttribute("user") User user, @RequestParam("role") String roleName) {
         Role role = userService.findRoleByName(roleName);
         user.setRoles(Set.of(role));// Устанавливаем новую роль
         userService.save(user);// Сохраняем изменения
@@ -99,11 +96,15 @@ public class AdminController {
     //return "edit";: Возвращает имя представления edit.
 
     @PostMapping("/edit")
-    public String update(@RequestParam("id") int id,
-                         @ModelAttribute("user") User user,
-                         @RequestParam("role") String roleName) {
-        Role role = userService.findRoleByName(roleName); // Находим роль по имени
-        user.setRoles(new HashSet<>(Set.of(role))); // Присваиваем выбранную роль пользователю
+    public String update(Long userId, String firstName, String lastName, Integer age, String email, String role) {
+        Role roleEntity = userService.findRoleByName(role); // Находим роль по имени
+        User user = new User();
+        user.setId(userId);
+        user.setUsername(firstName);
+        user.setLastName(lastName);
+        user.setAge(age);
+        user.setEmail(email);
+        user.setRoles(new HashSet<>(Set.of(roleEntity))); // Присваиваем выбранную роль пользователю
         userService.edit(user); // Обновляем данные пользователя
         return "redirect:/admin";
     }
@@ -114,7 +115,7 @@ public class AdminController {
 
     //   Удалить Юзера
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteUser(@RequestParam("id") int id) {
+    public String deleteUser(@RequestParam("userId") int id) {
         userService.delete(id);
         return "redirect:/admin";
     }

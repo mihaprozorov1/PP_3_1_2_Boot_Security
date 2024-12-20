@@ -14,7 +14,6 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,8 +51,8 @@ public class UserServiceImpl implements UserService {
         User existingUser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         existingUser.setUsername(user.getUsername());
-        existingUser.setUsername(user.getLastName());
-        existingUser.setUsername(String.valueOf(user.getAge()));
+        existingUser.setLastName(user.getLastName());
+        existingUser.setAge(user.getAge());
         existingUser.setEmail(user.getEmail());
         existingUser.setRoles(user.getRoles());
         userRepository.save(existingUser);
@@ -81,13 +80,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-
     //метод из интерфейса UserDetailsService для сравнения полученого имя пользователя с хранящимся в базе
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
     }
 

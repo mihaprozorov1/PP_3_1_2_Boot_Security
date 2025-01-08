@@ -45,6 +45,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-hibernate5</artifactId>
+			<version>2.15.2</version> <!-- Убедитесь, что используете версию, совместимую с вашим проектом -->
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

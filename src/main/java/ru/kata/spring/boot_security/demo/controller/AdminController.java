@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,11 +77,24 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    //   Удалить Юзера
-    @GetMapping("/delete")
-    public String deleteUser(@RequestParam("userId") int id) {
+//    @PutMapping("/update")
+//    public User update(Long userId, String firstName, String lastName, Integer age, String email, String role) {
+//        Role roleEntity = userService.findRoleByName(role); // Находим роль по имени
+//        User user = new User();
+//        user.setId(userId);
+//        user.setUsername(firstName);
+//        user.setLastName(lastName);
+//        user.setAge(age);
+//        user.setEmail(email);
+//        user.setRoles(new HashSet<>(Set.of(roleEntity))); // Присваиваем выбранную роль пользователю
+//        userService.edit(user);
+//        return user;
+//    }
+
+    @DeleteMapping("/delete")
+    public String deleteUser(@RequestParam int id) {
         userService.delete(id);
-        return "redirect:/admin";
+        return "User with ID = " + id + " deleted";
     }
 
     @GetMapping("/7_user-information-page")

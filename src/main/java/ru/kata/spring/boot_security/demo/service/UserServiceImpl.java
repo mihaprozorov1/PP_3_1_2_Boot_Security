@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void save(User user) {
+        enrichUser(user);
         userRepository.save(user);
     }
 
@@ -99,6 +101,10 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(String.format("User '%s' not found", email));
         }
         return user;
+    }
+
+    private void enrichUser(User user) {
+        user.setCreatedAt(LocalDateTime.now());
     }
 }
 

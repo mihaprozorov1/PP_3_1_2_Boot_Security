@@ -15,6 +15,13 @@ public class UserGlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> handlerException (UserNotCreatedException e){
+        UserErrorResponse userErrorResponse = new UserErrorResponse();
+        userErrorResponse.setMessage(e.getMessage());
+        return new ResponseEntity<>(userErrorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<UserErrorResponse> handlerException (Exception e){
         UserErrorResponse userErrorResponse = new UserErrorResponse();
         userErrorResponse.setMessage(e.getMessage());

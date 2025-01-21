@@ -78,27 +78,6 @@ public class AdminController {
     }
 
 //      Изменить Юзера
-    @GetMapping("/edit")
-    public String edit(Model model, @RequestParam("id") int id) {
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("roles", userService.getAllRoles());
-        return "edit";
-    }
-
-    @PostMapping("/edit")
-    public String update(Long userId, String firstName, String lastName, Integer age, String email, String role) {
-        Role roleEntity = userService.findRoleByName(role); // Находим роль по имени
-        User user = new User();
-        user.setId(userId);
-        user.setUsername(firstName);
-        user.setLastName(lastName);
-        user.setAge(age);
-        user.setEmail(email);
-        user.setRoles(new HashSet<>(Set.of(roleEntity))); // Присваиваем выбранную роль пользователю
-        userService.edit(user); // Обновляем данные пользователя
-        return "redirect:/admin";
-    }
-
     @PutMapping("/update")
     public ResponseEntity<UserDTO> update1(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult, @RequestParam("role") String roleName) {
         // Проверяем ошибки валидации
@@ -134,26 +113,18 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(@RequestParam int id) {
+    public ResponseEntity<String> deleteUser(@RequestParam int id) {
+        // Проверяем, существует ли пользователь
         if (userService.getById(id) == null) {
             throw new UserNotFoundException("User с таким ID = " + id + " в базе-данных нет");
         }
+        // Удаляем пользователя
         userService.delete(id);
-        return "User with ID = " + id + " deleted";
+        // Возвращаем подтверждение с HTTP статусом 200 OK
+        return ResponseEntity.ok("User with ID = " + id + " deleted");
     }
 
-    //    @GetMapping("/7_user-information-page")
-//    public String show(Model model) {
-//        // Получаем текущего авторизованного пользователя
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String email = authentication.getName(); // Получаем имя пользователя из Authentication
-//        System.out.println(email);
-//        // Получаем информацию о пользователе по имени
-//        User user = userService.getInfoByUser(email);
-//        // Добавляем информацию о пользователе в модель
-//        model.addAttribute("currentUserByAdmin", user);
-//        return "7_user-information-page";
-//    }
+        //Вывести инфо о авторизованном юзере
     @GetMapping("infoByThisUser")
     public ResponseEntity<UserDTO> show() {
         // Получаем текущего авторизованного пользователя

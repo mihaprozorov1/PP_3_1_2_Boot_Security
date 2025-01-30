@@ -29,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/css/**", "/js/**", "/images/**", "/static/**", "/6_user-page.html", "/2_admin-page.html"
+                        , "/3_add-new-user.html", "/7_user-information-page.html").permitAll() // Разрешить доступ к статике и HTML
                 .antMatchers("/admin/**").permitAll() // API доступен для всех
                 .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
@@ -42,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
     }
+
 
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {

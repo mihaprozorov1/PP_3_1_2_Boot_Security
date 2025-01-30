@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+</head>
+
+<!-- Заголовок страницы с использованием Thymeleaf для динамической вставки имени пользователя -->
+<h1 th:inline="text"> Information about employee - [[${#httpServletRequest.remoteUser}]]!</h1>
+<!-- h1 выводит информацию о текущем пользователе, используя удалённого пользователя (remoteUser) из HTTP запроса. -->
+
+<body>
+<br/>
+
+<!-- Блок для отображения информации о текущем пользователе -->
+<div>
+    <label>Id:</label>
+    <!-- Отображает идентификатор текущего пользователя, используя метод getId() объекта currentUser -->
+    <span th:text="${currentUser.getId()}"/>
+    <br>
+
+    <label>User Name:</label>
+    <!-- Отображает имя пользователя, используя метод getUsername() объекта currentUser -->
+    <span th:text="${currentUser.getUsername()}"/>
+    <br>
+
+    <label>Last Name:</label>
+    <span th:text="${currentUser.getLastName()}"/>
+    <br>
+
+    <label>Age:</label>
+    <span th:text="${currentUser.getAge()}"/>
+    <br>
+
+    <label>Surname:</label>
+    <!-- Отображает email пользователя, используя метод getEmail() объекта currentUser -->
+    <span th:text="${currentUser.getEmail()}"/>
+    <br>
+
+    <label>Role:</label>
+    <span th:text="${currentUser.getRoleNames()}"/>
+    <br>
+
+</div>
+
+<br/>
+<!-- Форма для выхода из системы -->
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+    <!-- Кнопка для завершения сеанса пользователя -->
+</form>
+
+</body>
+</html>

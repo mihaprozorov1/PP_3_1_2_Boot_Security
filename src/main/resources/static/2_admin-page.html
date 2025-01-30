@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <!-- <link rel="stylesheet" href="css/2_admin-page.css"> -->
+    <style>
+        /* Универсальные настройки для всех элементов страницы */
+        * {
+            margin: 0; /* Убирает внешние отступы */
+            padding: 0; /* Убирает внутренние отступы */
+            box-sizing: border-box; /* Включает рамки и отступы в размеры элементов */
+        }
+
+        /* Настройки для основного тега body */
+        body {
+            font-family: Arial, sans-serif; /* Устанавливает шрифт для текста */
+            display: flex; /* Использует Flexbox для организации контента */
+            flex-direction: column; /* Содержимое выстраивается по вертикали */
+            height: 100vh; /* Высота страницы равна высоте окна браузера */
+        }
+
+        /* Стиль для футера */
+        .footer {
+            background-color: black; /* Черный фон */
+            color: white; /* Белый текст */
+            height: 50px; /* Фиксированная высота футера */
+            display: flex; /* Flexbox для выравнивания содержимого */
+            justify-content: space-between; /* Распределяет элементы по краям */
+            align-items: center; /* Выравнивает элементы вертикально по центру */
+            padding: 0 20px; /* Отступы по горизонтали */
+        }
+
+        /* Кнопка Logout внутри футера */
+        .footer .logout-btn {
+            background-color: black; /* Черный фон */
+            color: #999999; /* Серый цвет текста */
+            border: none; /* Убирает рамку кнопки */
+            padding: 5px 10px; /* Внутренние отступы */
+            cursor: pointer; /* Меняет курсор на указатель при наведении */
+            transition: color 0.3s; /* Плавная анимация изменения цвета текста */
+        }
+
+        /* Hover-эффект для кнопки Logout */
+        .footer .logout-btn:hover {
+            color: white; /* Белый текст при наведении */
+        }
+
+        /* Основной контейнер для контента */
+        .content {
+            display: flex; /* Flexbox для разделения на боковую панель и основное содержимое */
+            flex: 1; /* Занимает всю оставшуюся высоту страницы */
+        }
+
+        /* Левая боковая панель */
+        .sidebar {
+            width: 25%; /* Занимает 25% ширины экрана */
+            background-color: white; /* Белый фон */
+            display: flex; /* Flexbox для вертикальной организации */
+            flex-direction: column; /* Кнопки располагаются сверху вниз */
+            align-items: stretch; /* Кнопки растягиваются на всю ширину панели */
+            padding: 20px 0 10px 0; /* Отступы сверху и снизу */
+        }
+
+        /* Общие стили для кнопок в боковой панели */
+        .sidebar button {
+            border: none; /* Убирает рамки */
+            padding: 13px; /* Внутренние отступы */
+            cursor: pointer; /* Указатель при наведении */
+            font-size: 16px; /* Размер текста */
+            width: 100%; /* Кнопки занимают всю ширину панели */
+            border-radius: 5px; /* Скругленные углы */
+            text-align: left; /* Текст выравнивается по левому краю */
+            transition: all 0.3s; /* Плавные изменения при наведении */
+        }
+
+        /* Кнопка Admin */
+        .sidebar .admin-btn {
+            background-color: #007bff; /* Синий фон */
+            color: white; /* Белый текст */
+        }
+
+        /* Кнопка User */
+        .sidebar .user-btn {
+            background-color: white; /* Белый фон */
+            color: #007bff; /* Синий текст */
+        }
+
+        /* Hover-эффект для кнопки User */
+        .sidebar .user-btn:hover {
+            background-color: #007bff; /* Становится синей при наведении */
+            color: white; /* Текст становится белым */
+        }
+
+        /* Правая часть с основным контентом */
+        .main-content {
+            flex: 1; /* Занимает оставшуюся ширину экрана */
+            background-color: #f7f7f7; /* Светло-серый фон */
+            padding: 20px; /* Отступы внутри */
+            overflow-y: auto; /* Добавляет прокрутку по вертикали при необходимости */
+        }
+
+        /* Заголовок панели администратора */
+        .header-title {
+            font-size: 28px; /* Размер шрифта */
+            font-weight: bold; /* Жирный текст */
+            margin-bottom: 10px; /* Отступ снизу */
+            text-align: left; /* Выровнено по левому краю */
+        }
+
+        /* Контейнер для вкладок */
+        .tabs {
+            display: flex; /* Flexbox для горизонтальной организации вкладок */
+            margin-bottom: 0; /* Убирает отступ снизу */
+        }
+
+        /* Общие стили для вкладок */
+        .tab {
+            padding: 10px 20px; /* Внутренние отступы */
+            cursor: pointer; /* Указатель при наведении */
+            background-color: white; /* Белый фон */
+            color: black; /* Черный текст */
+            border: 1px solid #ddd; /* Светло-серая рамка */
+            border-bottom: none; /* Убирает нижнюю рамку */
+            border-radius: 10px 10px 0 0; /* Скругленные верхние углы */
+            transition: background-color 0.3s, color 0.3s; /* Плавная анимация изменения цвета и фона */
+        }
+
+        /* Активная вкладка */
+        .tab.active {
+            background-color: white; /* Белый фон */
+            color: black; /* Черный текст */
+            border-color: #ddd; /* Светло-серая рамка */
+        }
+
+        /* Hover-эффект для вкладок */
+        .tab:hover {
+            background-color: #f4f4f4; /* Светло-серый фон при наведении */
+            color: black; /* Черный текст */
+        }
+
+        /* Специфический стиль для вкладки "New User" */
+        .tab.new-user-tab {
+            background-color: #f7f7f7; /* Светло-серый фон */
+            border: none; /* Убирает рамку */
+            border-radius: 0; /* Углы не скруглены */
+            text-decoration: none; /* Убирает подчеркивание */
+        }
+
+        /* Hover-эффект для вкладки "New User" */
+        .tab.new-user-tab:hover {
+            background-color: white; /* Белый фон при наведении */
+            border: 1px solid #ddd; /* Появляется рамка */
+            border-bottom: none; /* Убирает нижнюю часть рамки */
+            border-radius: 10px 10px 0 0; /* Скругленные верхние углы */
+        }
+
+        /* Блок под вкладками */
+        .header {
+            background-color: #f7f7f7; /* Светло-серый фон */
+            border: 1px solid #ddd; /* Светло-серая рамка */
+            border-top: none; /* Убирает верхнюю границу */
+            padding: 10px; /* Внутренние отступы */
+            font-size: 16px; /* Размер и жирность шрифта */
+            font-weight: bold; /* Жирный шрифт */
+            display: flex; /* Flexbox для выравнивания содержимого */
+            align-items: center; /* Центрирование по вертикали */
+            height: 40px; /* Фиксированная высота */
+            margin-top: 10px; /* Отступ сверху */
+        }
+
+        /* Блок "All users" */
+        .all-users {
+            border: 1px solid #ddd; /* Светло-серая рамка */
+            border-top: none; /* Убирает верхнюю границу */
+            margin-top: 10px; /* Отступ сверху */
+            padding: 10px; /* Внутренние отступы */
+        }
+
+        /* Таблица */
+        table {
+            width: 100%; /* Таблица занимает всю ширину блока */
+            border-collapse: collapse; /* Убирает промежутки между рамками ячеек */
+            background-color: white; /* Белый фон */
+        }
+
+        /* Заголовки и ячейки таблицы */
+        th, td {
+            padding: 10px; /* Внутренние отступы для ячеек */
+            text-align: left; /* Текст выровнен по левому краю */
+        }
+
+        /* Стиль для заголовков таблицы */
+        th {
+            background-color: #f4f4f4; /* Светло-серый фон для заголовков */
+        }
+
+        /* Чередование цвета строк таблицы */
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Светло-серый фон для четных строк */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ffffff; /* Белый фон для нечетных строк */
+        }
+
+        /* Hover-эффект для строк таблицы */
+        tr:hover {
+            background-color: #f1f1f1; /* Светло-серый фон при наведении */
+        }
+
+        /* Кнопки "Edit" и "Delete" */
+        .edit-btn, .delete-btn {
+            border-radius: 5px; /* Скругленные углы */
+            padding: 5px 10px; /* Внутренние отступы */
+            cursor: pointer; /* Указатель при наведении */
+            transition: all 0.3s; /* Плавные изменения стиля */
+            color: white; /* Белый цвет текста */
+        }
+
+        /* Стиль для кнопки "Edit" */
+        .edit-btn {
+            background-color: #007bff; /* Синий фон */
+            border-color: #007bff; /* Синяя рамка */
+        }
+
+        /* Hover-эффект для кнопки "Edit" */
+        .edit-btn:hover {
+            background-color: #0056b3; /* Более темный синий фон */
+            border-width: 2px; /* Увеличенная ширина рамки */
+        }
+
+        /* Стиль для кнопки "Delete" */
+        .delete-btn {
+            background-color: #dc3545; /* Красный фон */
+            border-color: #dc3545; /* Красная рамка */
+        }
+
+        /* Hover-эффект для кнопки "Delete" */
+        .delete-btn:hover {
+            background-color: #b02a37; /* Более темный красный фон */
+            border-width: 2px; /* Увеличенная ширина рамки */
+        }
+
+        /* Универсальные стили для всплывающих форм */
+        .modal {
+            display: none; /* Скрываем модальное окно по умолчанию */
+            position: fixed; /* Фиксируем окно относительно экрана */
+            z-index: 1000; /* Устанавливаем высокий приоритет */
+            left: 0;
+            top: 0;
+            width: 100%; /* Окно занимает всю ширину экрана */
+            height: 100%; /* Окно занимает всю высоту экрана */
+            background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+        }
+
+        /* Внутренний блок модального окна */
+        .modal-content {
+            background-color: white; /* Белый фон для контента */
+            margin: 10% auto; /* Располагаем по центру */
+            padding: 20px; /* Внутренние отступы */
+            border-radius: 10px; /* Скругленные углы */
+            width: 40%; /* Ширина модального окна */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень вокруг окна */
+        }
+
+        /* Кнопка закрытия модального окна */
+        .close-btn {
+            float: right; /* Кнопка выравнивается справа */
+            font-size: 28px; /* Размер текста */
+            cursor: pointer; /* Указатель при наведении */
+        }
+
+        /* Стили для элементов формы внутри модального окна */
+        .modal-content label {
+            display: block; /* Размещаем каждый элемент в новой строке */
+            margin: 10px 0 5px; /* Отступы сверху и снизу */
+        }
+
+        .modal-content input, .modal-content select {
+            width: 100%; /* Элемент растягивается на всю ширину */
+            padding: 8px; /* Внутренние отступы */
+            margin-bottom: 10px; /* Отступ снизу */
+            border: 1px solid #ddd; /* Светло-серая рамка */
+            border-radius: 5px; /* Скругленные углы */
+        }
+
+        /* Блок кнопок внутри модального окна */
+        .modal-actions {
+            display: flex; /* Выстраиваем кнопки горизонтально */
+            justify-content: flex-end; /* Выравниваем кнопки справа */
+            gap: 10px; /* Расстояние между кнопками */
+        }
+
+        /* Кнопки закрытия и сохранения изменений */
+        #closeModal, #saveEdit {
+            padding: 10px 20px; /* Внутренние отступы */
+            border: none; /* Убираем рамку */
+            border-radius: 5px; /* Скругленные углы */
+            cursor: pointer; /* Указатель при наведении */
+            transition: background-color 0.3s; /* Плавное изменение фона */
+        }
+
+        /* Кнопка закрытия модального окна */
+        #closeModal {
+            background-color: #ccc; /* Светло-серый фон */
+        }
+
+        #closeModal:hover {
+            background-color: #999; /* Темно-серый фон при наведении */
+        }
+
+        /* Кнопка сохранения изменений */
+        #saveEdit {
+            background-color: #007bff; /* Синий фон */
+            color: white; /* Белый текст */
+        }
+
+        #saveEdit:hover {
+            background-color: #0056b3; /* Более темный синий фон при наведении */
+        }
+
+        /* Кнопки для подтверждения удаления */
+        #closeDeleteModal {
+            background-color: #ccc; /* Серый фон */
+            color: black; /* Черный текст */
+            padding: 10px 20px; /* Внутренние отступы */
+            border: none; /* Убираем рамку */
+            border-radius: 5px; /* Скругленные углы */
+            cursor: pointer; /* Указатель при наведении */
+            transition: background-color 0.3s; /* Плавное изменение фона */
+        }
+
+        #closeDeleteModal:hover {
+            background-color: #999; /* Темный серый фон при наведении */
+        }
+
+        #confirmDelete {
+            background-color: #dc3545; /* Красный фон */
+            color: white; /* Белый текст */
+            padding: 10px 20px; /* Внутренние отступы */
+            border: none; /* Убираем рамку */
+            border-radius: 5px; /* Скругленные углы */
+            cursor: pointer; /* Указатель при наведении */
+            transition: background-color 0.3s; /* Плавное изменение фона */
+        }
+
+        #confirmDelete:hover {
+            background-color: #b02a37; /* Темно-красный фон при наведении */
+        }
+
+    </style>
+</head>
+<body>
+<!-- Footer -->
+<div class="footer">
+    <!--    <span>admin@mail.ru with roles: ADMIN USER</span>-->
+    <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
+    <form th:action="@{/logout}" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<!-- Content -->
+<div class="content">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="admin-btn">Admin</button>
+        <a href="/admin/7_user-information-page">
+            <button class="user-btn">User</button>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header-title">Admin Panel</div>
+        <div class="tabs">
+            <div class="tab active">Users Table</div>
+            <a href="/admin/3_add-new-user" class="tab new-user-tab">New User</a>
+        </div>
+        <div class="header">All users</div>
+        <div class="all-users">
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}">Id</td>
+                    <td th:text="${user.username}">Name</td>
+                    <td th:text="${user.lastName}">Last Name</td>
+                    <td th:text="${user.age}">Age</td>
+                    <td th:text="${user.email}">Email</td>
+                    <td th:text="${user.roleNames}">Role</td>
+                    <td>
+                        <button class="edit-btn" onclick="document.getElementById('editModal').style.display = 'block'">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="delete-btn"
+                                onclick="document.getElementById('deleteModal').style.display = 'block'">Delete
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Edit User</h2>
+        <form id="editForm" method="POST" action="/admin/edit">
+            <label for="userId">ID:</label>
+            <input type="text" id="userId" name="userId" readonly>
+
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="ROLE_ADMIN">Admin</option>
+                <option value="ROLE_USER">User</option>
+            </select>
+
+            <div class="modal-actions">
+                <button type="button" id="closeModal">Close</button>
+                <button type="submit" id="saveEdit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Delete User</h2>
+        <form id="deleteForm" method="delete" action="/admin/delete">
+            <label for="deleteUserId">ID:</label>
+            <input type="text" id="deleteUserId" name="userId" readonly>
+
+            <label for="deleteFirstName">First Name:</label>
+            <input type="text" id="deleteFirstName" name="firstName" readonly>
+
+            <label for="deleteLastName">Last Name:</label>
+            <input type="text" id="deleteLastName" name="lastName" readonly>
+
+            <label for="deleteAge">Age:</label>
+            <input type="number" id="deleteAge" name="age" readonly>
+
+            <label for="deleteEmail">Email:</label>
+            <input type="email" id="deleteEmail" name="email" readonly>
+
+            <label for="deleteRole">Role:</label>
+            <input type="text" id="deleteRole" name="role" readonly>
+
+            <div class="modal-actions">
+                <button type="button" id="closeDeleteModal">Close</button>
+                <button type="submit" id="confirmDelete">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Общая функциональность для модальных окон
+        function closeModal(modal) {
+            modal.style.display = "none";
+        }
+
+        // Редактирование пользователя
+        const editModal = document.getElementById("editModal");
+        const editButtons = document.querySelectorAll(".edit-btn");
+        editButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                const row = event.target.closest("tr");
+                const cells = row.querySelectorAll("td");
+
+                document.getElementById("userId").value = cells[0].innerText;
+                document.getElementById("firstName").value = cells[1].innerText;
+                document.getElementById("lastName").value = cells[2].innerText;
+                document.getElementById("age").value = cells[3].innerText;
+                document.getElementById("email").value = cells[4].innerText;
+                console.log(cells[5].innerText)
+                document.getElementById("role").value = cells[5].innerText;
+
+                editModal.style.display = "block";
+            });
+        });
+
+        document.getElementById("closeModal").addEventListener("click", () => closeModal(editModal));
+
+        // Удаление пользователя
+        const deleteModal = document.getElementById("deleteModal");
+        const deleteButtons = document.querySelectorAll(".delete-btn");
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                const row = event.target.closest("tr");
+                const cells = row.querySelectorAll("td");
+
+                document.getElementById("deleteUserId").value = cells[0].innerText;
+                document.getElementById("deleteFirstName").value = cells[1].innerText;
+                document.getElementById("deleteLastName").value = cells[2].innerText;
+                document.getElementById("deleteAge").value = cells[3].innerText;
+                document.getElementById("deleteEmail").value = cells[4].innerText;
+                document.getElementById("deleteRole").value = cells[5].innerText;
+
+                deleteModal.style.display = "block";
+            });
+        });
+
+        document.getElementById("closeDeleteModal").addEventListener("click", () => closeModal(deleteModal));
+    });
+
+</script>
+</body>
+</html>

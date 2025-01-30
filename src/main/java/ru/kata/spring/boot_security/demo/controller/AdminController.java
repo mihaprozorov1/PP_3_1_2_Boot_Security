@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,8 +52,8 @@ public class AdminController {
     }
 
     //	Вывести Юзера по ID
-    @GetMapping("/getById") //Обрабатывает GET-запросы с параметром id (например, /admin/1).
-    public UserDTO show(@RequestParam("id") int id) { //Извлекает параметр id из запроса.
+    @GetMapping("/{id}") //Обрабатывает GET-запросы с параметром id (например, /admin/1).
+    public UserDTO show(@PathVariable("id") int id) { //Извлекает параметр id из запроса.
         if (userService.getById(id) == null) {
             throw new UserNotFoundException("User с таким ID = " + id + " в базе-данных нет");
         }
@@ -60,7 +61,7 @@ public class AdminController {
     }
 
     //	Добавить Юзера
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult, @RequestParam("role") String roleName) {
         if (bindingResult.hasErrors()) {
             StringBuilder errorsMsg = new StringBuilder();
@@ -78,7 +79,7 @@ public class AdminController {
     }
 
 //      Изменить Юзера
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<UserDTO> update1(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult, @RequestParam("role") String roleName) {
         // Проверяем ошибки валидации
         if (bindingResult.hasErrors()) {
@@ -112,8 +113,8 @@ public class AdminController {
         return ResponseEntity.ok(convertToUserDTO(existingUser));
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteUser(@RequestParam int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
         // Проверяем, существует ли пользователь
         if (userService.getById(id) == null) {
             throw new UserNotFoundException("User с таким ID = " + id + " в базе-данных нет");

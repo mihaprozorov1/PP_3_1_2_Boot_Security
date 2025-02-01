@@ -4,11 +4,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController //@Controller + @ResponseBody над каждым методом
 @RequestMapping("/admin")
 public class AdminController {
@@ -78,7 +81,7 @@ public class AdminController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-//      Изменить Юзера
+    //      Изменить Юзера
     @PutMapping("/")
     public ResponseEntity<UserDTO> update1(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult, @RequestParam("role") String roleName) {
         // Проверяем ошибки валидации
@@ -125,7 +128,8 @@ public class AdminController {
         return ResponseEntity.ok("User with ID = " + id + " deleted");
     }
 
-        //Вывести инфо о авторизованном юзере
+    //Вывести инфо о авторизованном юзере
+    @PreAuthorize("permitAll()")
     @GetMapping("infoByThisUser")
     public ResponseEntity<UserDTO> show() {
         // Получаем текущего авторизованного пользователя

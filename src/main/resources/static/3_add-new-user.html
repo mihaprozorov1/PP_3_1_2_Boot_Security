@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <!-- <link rel="stylesheet" href="css/3_add-new-user.css"> -->
+    <script src="js/3_add-new-user.js" defer></script>
     <style>/* Универсальные настройки */
     * {
         margin: 0;
@@ -229,19 +229,19 @@
 <div class="content">
     <div class="sidebar">
         <button class="admin-btn">Admin</button>
-        <a href="/admin/7_user-information-page">
+        <a href="/7_user-information-page.html">
             <button class="user-btn">User</button>
         </a>
     </div>
     <div class="main-content">
         <div class="header-title">Admin Panel</div>
         <div class="tabs">
-            <a href="/admin" class="tab users-table-tab">Users Table</a>
+            <a href="/2_admin-page.html" class="tab users-table-tab">Users Table</a>
             <div class="tab active">New User</div>
         </div>
         <div class="header">Add New User</div>
         <div class="form-container">
-            <form th:method="POST" th:action="@{/admin/3_add-new-user}" th:object="${user}">
+            <form th:method="POST" th:action="@{/admin/}" th:object="${user}">
                 <div class="form-group">
                     <label for="first-name">First Name</label>
                     <input type="text" th:field="*{username}" id="first-name" name="first-name" placeholder="First Name">

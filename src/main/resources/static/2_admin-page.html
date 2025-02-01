@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
+    <script src="js/admin.js" defer></script>
+    <script src="js/2_admin-page.js" defer></script>
+
     <!-- <link rel="stylesheet" href="css/2_admin-page.css"> -->
     <style>
         /* Универсальные настройки для всех элементов страницы */
@@ -355,7 +358,6 @@
 <body>
 <!-- Footer -->
 <div class="footer">
-    <!--    <span>admin@mail.ru with roles: ADMIN USER</span>-->
     <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
     <form th:action="@{/logout}" method="post" style="display: inline;">
         <button type="submit" class="logout-btn">Logout</button>
@@ -364,61 +366,40 @@
 
 <!-- Content -->
 <div class="content">
-    <!-- Sidebar -->
     <div class="sidebar">
         <button class="admin-btn">Admin</button>
-        <a href="/admin/7_user-information-page">
+        <a href="/7_user-information-page.html">
             <button class="user-btn">User</button>
         </a>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="header-title">Admin Panel</div>
         <div class="tabs">
             <div class="tab active">Users Table</div>
-            <a href="/admin/3_add-new-user" class="tab new-user-tab">New User</a>
+            <a href="/3_add-new-user.html" class="tab new-user-tab">New User</a>
         </div>
         <div class="header">All users</div>
         <div class="all-users">
             <table>
                 <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.id}">Id</td>
-                    <td th:text="${user.username}">Name</td>
-                    <td th:text="${user.lastName}">Last Name</td>
-                    <td th:text="${user.age}">Age</td>
-                    <td th:text="${user.email}">Email</td>
-                    <td th:text="${user.roleNames}">Role</td>
-                    <td>
-                        <button class="edit-btn" onclick="document.getElementById('editModal').style.display = 'block'">
-                            Edit
-                        </button>
-                    </td>
-                    <td>
-                        <button class="delete-btn"
-                                onclick="document.getElementById('deleteModal').style.display = 'block'">Delete
-                        </button>
-                    </td>
-                </tr>
+                <tbody id="userTableBody">
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 
 <!-- Edit Modal -->
 <div id="editModal" class="modal">
@@ -460,24 +441,9 @@
     <div class="modal-content">
         <span class="close-btn">&times;</span>
         <h2>Delete User</h2>
-        <form id="deleteForm" method="delete" action="/admin/delete">
+        <form id="deleteForm" method="POST" action="/admin/delete">
             <label for="deleteUserId">ID:</label>
             <input type="text" id="deleteUserId" name="userId" readonly>
-
-            <label for="deleteFirstName">First Name:</label>
-            <input type="text" id="deleteFirstName" name="firstName" readonly>
-
-            <label for="deleteLastName">Last Name:</label>
-            <input type="text" id="deleteLastName" name="lastName" readonly>
-
-            <label for="deleteAge">Age:</label>
-            <input type="number" id="deleteAge" name="age" readonly>
-
-            <label for="deleteEmail">Email:</label>
-            <input type="email" id="deleteEmail" name="email" readonly>
-
-            <label for="deleteRole">Role:</label>
-            <input type="text" id="deleteRole" name="role" readonly>
 
             <div class="modal-actions">
                 <button type="button" id="closeDeleteModal">Close</button>
@@ -486,59 +452,5 @@
         </form>
     </div>
 </div>
-
-<!-- JavaScript -->
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // Общая функциональность для модальных окон
-        function closeModal(modal) {
-            modal.style.display = "none";
-        }
-
-        // Редактирование пользователя
-        const editModal = document.getElementById("editModal");
-        const editButtons = document.querySelectorAll(".edit-btn");
-        editButtons.forEach(button => {
-            button.addEventListener("click", (event) => {
-                const row = event.target.closest("tr");
-                const cells = row.querySelectorAll("td");
-
-                document.getElementById("userId").value = cells[0].innerText;
-                document.getElementById("firstName").value = cells[1].innerText;
-                document.getElementById("lastName").value = cells[2].innerText;
-                document.getElementById("age").value = cells[3].innerText;
-                document.getElementById("email").value = cells[4].innerText;
-                console.log(cells[5].innerText)
-                document.getElementById("role").value = cells[5].innerText;
-
-                editModal.style.display = "block";
-            });
-        });
-
-        document.getElementById("closeModal").addEventListener("click", () => closeModal(editModal));
-
-        // Удаление пользователя
-        const deleteModal = document.getElementById("deleteModal");
-        const deleteButtons = document.querySelectorAll(".delete-btn");
-        deleteButtons.forEach(button => {
-            button.addEventListener("click", (event) => {
-                const row = event.target.closest("tr");
-                const cells = row.querySelectorAll("td");
-
-                document.getElementById("deleteUserId").value = cells[0].innerText;
-                document.getElementById("deleteFirstName").value = cells[1].innerText;
-                document.getElementById("deleteLastName").value = cells[2].innerText;
-                document.getElementById("deleteAge").value = cells[3].innerText;
-                document.getElementById("deleteEmail").value = cells[4].innerText;
-                document.getElementById("deleteRole").value = cells[5].innerText;
-
-                deleteModal.style.display = "block";
-            });
-        });
-
-        document.getElementById("closeDeleteModal").addEventListener("click", () => closeModal(deleteModal));
-    });
-
-</script>
 </body>
 </html>

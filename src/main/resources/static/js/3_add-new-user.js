@@ -1,40 +1,40 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("addUserForm");
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Останавливаем стандартную отправку формы
 
-        const formData = new FormData(form);
-        const userData = {
-            username: formData.get("first-name"),
-            lastName: formData.get("last-name"),
-            age: Number(formData.get("age")),
-            email: formData.get("email"),
-            password: formData.get("password"),
-            roles: [formData.get("role")] // Передача роли как массива
+        // Формируем JSON объект пользователя
+        const user = {
+            username: document.getElementById("first-name").value,
+            lastName: document.getElementById("last-name").value,
+            age: document.getElementById("age").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
         };
 
+        const role = document.getElementById("role").value;
+        const url = `/admin/?role=${encodeURIComponent(role)}`;
+
         try {
-            const response = await fetch("http://localhost:8080/admin/3_add-new-user", {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(userData),
-                credentials: "include" // Передача cookies (если нужна аутентификация)
+                body: JSON.stringify(user)
             });
 
-            if (!response.ok) {
+            if (response.ok) {
+                alert("Пользователь успешно добавлен!");
+                form.reset();
+            } else {
                 const errorText = await response.text();
-                throw new Error(`HTTP ${response.status}: ${errorText}`);
+                alert("Ошибка: " + errorText);
             }
-
-            const result = await response.json();
-            alert("User created successfully! ID: " + result.id);
-            form.reset(); // Очистка формы после успешного создания пользователя
         } catch (error) {
-            console.error("Ошибка при создании пользователя:", error);
-            alert("Error creating user: " + error.message);
+            console.error("Ошибка при отправке запроса:", error);
+            alert("Ошибка соединения с сервером!");
         }
     });
 });

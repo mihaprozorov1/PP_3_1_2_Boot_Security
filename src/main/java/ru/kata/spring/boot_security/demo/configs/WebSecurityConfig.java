@@ -49,28 +49,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
-                .authorizeRequests()//
-                .antMatchers("/").permitAll()//Любой пользователь, независимо от роли, имеет доступ к корневому пути /.
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/403").permitAll()
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .anyRequest().authenticated() // любой запрос, который не подходит под предыдущие правила, требует аутентификации.
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
-                .successHandler(successUserHandler)//.formLogin() — активирует стандартную форму входа Spring Security.
-                //.successHandler(successUserHandler) — это обработчик, который будет вызван после успешной аутентификации. Он, вероятно,
-                // выполняет дополнительные действия, например, перенаправление пользователя на определенную страницу или запись в лог.
-                .permitAll()//.permitAll() — указывает, что доступ к странице входа (обычно /login) открыт для всех пользователей.
+                .successHandler(successUserHandler)
+                .permitAll()
                 .and()
-                .logout().permitAll() //Выход доступен всем пользователям.
+                .logout()
+                .logoutUrl("/logout") // Явно указываем путь выхода
+                .logoutSuccessUrl("/login?logout") // Куда перекинуть после выхода
+                .invalidateHttpSession(true) // Закрываем сессию
+                .deleteCookies("JSESSIONID") // Чистим куки сессии
+                .permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/403");//Если пользователь пытается получить доступ к ресурсу,
-        // к которому у него нет прав, он будет перенаправлен на страницу /403.
+                .exceptionHandling().accessDeniedPage("/403");
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -136,7 +136,7 @@
     }
 
     .tab.users-table-tab {
-        background-color: none;
+        background-color: transparent;
         color: black;
         border: none;
         text-decoration: none;
@@ -241,26 +241,26 @@
         </div>
         <div class="header">Add New User</div>
         <div class="form-container">
-            <form th:method="POST" th:action="@{/admin/}" th:object="${user}">
+            <form id="addUserForm">
                 <div class="form-group">
                     <label for="first-name">First Name</label>
-                    <input type="text" th:field="*{username}" id="first-name" name="first-name" placeholder="First Name">
+                    <input type="text" id="first-name" name="first-name" placeholder="First Name">
                 </div>
                 <div class="form-group">
                     <label for="last-name">Last Name</label>
-                    <input type="text" th:field="*{lastName}" id="last-name" name="last-name" placeholder="Last Name">
+                    <input type="text" id="last-name" name="last-name" placeholder="Last Name">
                 </div>
                 <div class="form-group">
                     <label for="age">Age</label>
-                    <input type="number" th:field="*{age}" id="age" name="age" placeholder="Age" min="0" step="1">
+                    <input type="number" id="age" name="age" placeholder="Age" min="0" step="1">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" th:field="*{email}" id="email" name="email" placeholder="Email">
+                    <input type="email" id="email" name="email" placeholder="Email">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" th:field="*{password}" id="password" name="password" placeholder="Password">
+                    <input type="password" id="password" name="password" placeholder="Password">
                 </div>
 
                 <div class="form-group">
@@ -271,7 +271,6 @@
                     </select>
                 </div>
                 <input type="submit" class="submit-btn" value="Create!"/>
-<!--                <button type="submit" class="submit-btn">Add New User</button>-->
             </form>
         </div>
     </div>

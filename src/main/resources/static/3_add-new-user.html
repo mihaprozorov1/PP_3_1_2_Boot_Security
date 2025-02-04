@@ -221,8 +221,8 @@
 
 <div class="footer">
     <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
-    <form th:action="@{/logout}" method="post" style="display: inline;">
-        <button type="submit" class="logout-btn">Logout</button>
+    <form id="logoutForm" action="/logout" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn" onclick="window.location.href='/login?logout'; return false;">Logout</button>
     </form>
 </div>
 

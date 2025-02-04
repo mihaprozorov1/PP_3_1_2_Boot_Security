@@ -24,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userServiceImpl = userServiceImpl;
     }
 
+    // Вариант для тестов без авторизации
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
 //        http
@@ -44,7 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
 //                .exceptionHandling().accessDeniedPage("/403");
 //    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -72,7 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

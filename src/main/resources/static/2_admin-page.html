@@ -7,7 +7,6 @@
     <script src="js/admin.js" defer></script>
     <script src="js/2_admin-page.js" defer></script>
 
-    <!-- <link rel="stylesheet" href="css/2_admin-page.css"> -->
     <style>
         /* Универсальные настройки для всех элементов страницы */
         * {
@@ -359,8 +358,8 @@
 <!-- Footer -->
 <div class="footer">
     <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
-    <form th:action="@{/logout}" method="post" style="display: inline;">
-        <button type="submit" class="logout-btn">Logout</button>
+    <form id="logoutForm" action="/logout" method="post" style="display: inline;">
+        <button type="submit" class="logout-btn" onclick="window.location.href='/login?logout'; return false;">Logout</button>
     </form>
 </div>
 

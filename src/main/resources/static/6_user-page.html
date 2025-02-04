@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-<!--    <link rel="stylesheet" href="css/7_user-information-page.css">-->
+    <script src="js/admin_3.js" defer></script>
     <style>
         /* Универсальные настройки для всех элементов страницы */
         * {
@@ -173,7 +173,7 @@
 <body>
 <!-- Footer -->
 <div class="footer">
-    <span>[[${#httpServletRequest.remoteUser}]] with roles: USER</span>
+    <span id="user-info">Loading...</span>
     <form id="logoutForm" action="/logout" method="post" style="display: inline;">
         <button type="submit" class="logout-btn" onclick="window.location.href='/login?logout'; return false;">Logout</button>
     </form>

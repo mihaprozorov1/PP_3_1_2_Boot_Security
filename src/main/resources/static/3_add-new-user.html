@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <script src="js/3_add-new-user.js" defer></script>
+    <script src="js/admin_2.js" defer></script>
     <style>/* Универсальные настройки */
     * {
         margin: 0;
@@ -220,7 +221,7 @@
 <body>
 
 <div class="footer">
-    <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
+    <span id="user-info">Loading...</span>
     <form id="logoutForm" action="/logout" method="post" style="display: inline;">
         <button type="submit" class="logout-btn" onclick="window.location.href='/login?logout'; return false;">Logout</button>
     </form>

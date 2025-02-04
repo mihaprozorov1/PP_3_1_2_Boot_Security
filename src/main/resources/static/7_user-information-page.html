@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <script src="js/7_user-information-page.js"></script>
-
-<!--    <link rel="stylesheet" href="css/7_user-information-page.css">-->
+    <script src="js/admin_2.js" defer></script>
     <style>
         /* Универсальные настройки для всех элементов страницы */
         * {
@@ -175,7 +174,7 @@
 <body>
 <!-- Footer -->
 <div class="footer">
-    <span>[[${#httpServletRequest.remoteUser}]] with roles: ADMIN USER</span>
+    <span id="user-info">Loading...</span>
     <form id="logoutForm" action="/logout" method="post" style="display: inline;">
         <button type="submit" class="logout-btn" onclick="window.location.href='/login?logout'; return false;">Logout</button>
     </form>
@@ -208,14 +207,6 @@
                 </tr>
                 </thead>
                 <tbody>
-<!--                <tr>-->
-<!--                    <td th:text="${currentUserByAdmin.id}"></td>-->
-<!--                    <td th:text="${currentUserByAdmin.username}"></td>-->
-<!--                    <td th:text="${currentUserByAdmin.lastName}"></td>-->
-<!--                    <td th:text="${currentUserByAdmin.age}"></td>-->
-<!--                    <td th:text="${currentUserByAdmin.email}"></td>-->
-<!--                    <td th:text="${currentUserByAdmin.roleNames}"></td>-->
-<!--                </tr>-->
                 </tbody>
             </table>
         </div>

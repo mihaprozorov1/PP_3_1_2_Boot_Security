@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +46,7 @@ public class AdminController {
 
     // Выбрать юзера по ID
     @GetMapping("/{id}") //Обрабатывает GET-запросы с параметром id (например, /admin/1).
-    public String show(@RequestParam("id") int id, Model model) { //Извлекает параметр id из запроса.
+    public String show(@PathVariable("id") int id, Model model) { //Извлекает параметр id из запроса.
         model.addAttribute("user", userService.getById(id));
         return "show";
     }
@@ -91,8 +92,7 @@ public class AdminController {
     //return "edit";: Возвращает имя представления edit.
 
     @PostMapping("/edit")
-    public String update(@RequestParam("id") int id,
-                         @ModelAttribute("user") User user,
+    public String update(@ModelAttribute("user") User user,
                          @RequestParam("role") String roleName) {
         Role role = userService.findRoleByName(roleName); // Находим роль по имени
         user.setRoles(new HashSet<>(Set.of(role))); // Присваиваем выбранную роль пользователю

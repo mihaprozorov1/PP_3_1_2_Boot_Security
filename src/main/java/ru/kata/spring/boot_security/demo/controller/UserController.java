@@ -14,7 +14,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping()
     public String shouUserInfo(Model model, @AuthenticationPrincipal UserDetails currentUser) {
-        User user = (User) userService.getInfoByUser(currentUser.getUsername());
+        User user = userService.getInfoByUser(currentUser.getUsername());
         model.addAttribute("currentUser", user);
         return "shouUserInfo";
     }

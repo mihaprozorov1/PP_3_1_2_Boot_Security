@@ -21,10 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     <S extends User> S save(S entity); //void save(User user);
 
-    @Modifying
-    @Query("UPDATE User u SET u.username = :name, u.email = :email WHERE u.id = :id")
-    void update(String name, String email, Long id);
-
     void deleteById(Long id);//void delete(int id);
 
     @Query("select u from User u left join fetch u.roles where u.email=:email")

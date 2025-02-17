@@ -6,6 +6,7 @@ import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -14,12 +15,12 @@ import java.util.List;
 @Component
 public class InitDb {
 
-    private UserRepository userRepository;
+    private UserService userService;
     private RoleRepository roleRepository;
 
     @Autowired
-    public InitDb(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
+    public InitDb(UserService userService, RoleRepository roleRepository) {
+        this.userService = userService;
         this.roleRepository = roleRepository;
     }
 
@@ -39,12 +40,12 @@ public class InitDb {
         User admin = new User("admin", "admin@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
         admin.setRoles(new HashSet<>(List.of(adminRole, userRole)));
 
-        User user = new User("user", "user@example.com","$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
+        User user = new User("user", "user@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
         user.setRoles(new HashSet<>(List.of(userRole)));
 
         // Сохраняем пользователей
-        userRepository.save(admin);
-        userRepository.save(user);
+        userService.save(admin);
+        userService.save(user);
 
         System.out.println("Тестовые пользователи и роли успешно добавлены в БД.");
     }

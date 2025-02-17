@@ -1,8 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -12,11 +10,8 @@ import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,12 +44,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void edit(User user) {
-        User existingUser = userRepository.findById(user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        existingUser.setUsername(user.getUsername());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setRoles(user.getRoles());
-        userRepository.save(existingUser);
+        if (!userRepository.existsById(user.getId())) {
+            throw new IllegalArgumentException("User not found");
+        }
+        userRepository.save(user);
     }
 
     @Transactional
@@ -79,7 +72,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
-
     //метод из интерфейса UserDetailsService для сравнения полученого имя пользователя с хранящимся в базе
     @Override
     @Transactional
@@ -87,10 +79,6 @@ public class UserServiceImpl implements UserService {
 
         return Optional.ofNullable(findByUsername(username))
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
     }
 
     public User getInfoByUser(String username) {

@@ -133,10 +133,8 @@ public class AdminController {
         System.out.println(email);
         // Получаем информацию о пользователе по имени
         User user = userService.getInfoByUser(email);
-
         // Добавляем информацию о пользователе в модель
         model.addAttribute("currentUserByAdmin", user);
-
         return "7_user-information-page";
     }
 }

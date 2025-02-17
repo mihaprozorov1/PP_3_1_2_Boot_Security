@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -15,8 +14,8 @@ import java.util.List;
 @Component
 public class InitDb {
 
-    private UserService userService;
-    private RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public InitDb(UserService userService, RoleRepository roleRepository) {
@@ -40,7 +39,7 @@ public class InitDb {
         User admin = new User("admin", "admin", 21, "admin@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
         admin.setRoles(new HashSet<>(List.of(adminRole, userRole)));
 
-        User user = new User("user", "user", 32,"user@example.com","$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
+        User user = new User("user", "user", 32, "user@example.com", "$2a$12$KUWvPmLUso.yacf.vsfWTOLt9r8GXjkFlNUio4Dt7ISxoHeHVQHAe");
         user.setRoles(new HashSet<>(List.of(userRole)));
 
         // Сохраняем пользователей

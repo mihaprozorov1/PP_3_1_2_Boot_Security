@@ -130,7 +130,6 @@ public class AdminController {
         // Получаем текущего авторизованного пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName(); // Получаем имя пользователя из Authentication
-        System.out.println(email);
         // Получаем информацию о пользователе по имени
         User user = userService.getInfoByUser(email);
         // Добавляем информацию о пользователе в модель

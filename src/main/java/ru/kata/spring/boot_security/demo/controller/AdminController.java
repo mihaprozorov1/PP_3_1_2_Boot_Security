@@ -98,15 +98,20 @@ public class AdminController {
 
     @PostMapping("/edit")
     public String update(Long userId, String firstName, String lastName, Integer age, String email, String role) {
+        User existingUser = userService.getById(userId);
+
+        if (existingUser == null) {
+            return "redirect:/admin";
+        }
+
+        existingUser.setUsername(firstName);
+        existingUser.setLastName(lastName);
+        existingUser.setAge(age);
+        existingUser.setEmail(email);
+
         Role roleEntity = userService.findRoleByName(role); // Находим роль по имени
-        User user = new User();
-        user.setId(userId);
-        user.setUsername(firstName);
-        user.setLastName(lastName);
-        user.setAge(age);
-        user.setEmail(email);
-        user.setRoles(new HashSet<>(Set.of(roleEntity))); // Присваиваем выбранную роль пользователю
-        userService.edit(user); // Обновляем данные пользователя
+        existingUser.setRoles(new HashSet<>(Set.of(roleEntity))); // Присваиваем выбранную роль пользователю
+        userService.edit(existingUser); // Обновляем данные пользователя
         return "redirect:/admin";
     }
     //@PostMapping("/edit"): Обрабатывает POST-запросы к /admin/edit.

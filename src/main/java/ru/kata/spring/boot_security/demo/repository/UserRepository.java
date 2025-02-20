@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteById(Long id);//void delete(int id);
 
     @Query("select u from User u left join fetch u.roles where u.email=:email")
-    Optional<User> getUserByUsername(@Param("email") String email);
+    Optional<User> getUserByUserEmail(@Param("email") String email);
 
     Optional<User> findByEmail(String email);
 }

@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -75,12 +76,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        // Загружаем пользователя по email
+        User user = userRepository.getUserByUserEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        // Инициализируем ленивую коллекцию ролей
+        Hibernate.initialize(user.getRoles());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), user.getRoles()); // Возвращаем пользователя с инициализированными ролями
     }
 
     public User getInfoByUser(String email) throws UsernameNotFoundException {
-        return userRepository.getUserByUsername(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", email)));
     }
 }

@@ -25,13 +25,13 @@ public class UserController {
         this.userService = userService;
     }
 
-        @GetMapping()
+    @GetMapping()
     public ResponseEntity<?> shouUserInfo(@AuthenticationPrincipal UserDetails currentUser) {
         if (currentUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated");
         }
 
-        User user = (User) userService.getInfoByUser(currentUser.getUsername());
+        User user = userService.getInfoByUser(currentUser.getUsername());
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,7 +48,7 @@ public class AdminController {
 
     //	Вывести всех Юзеров
     @GetMapping({"", "/"})
-    public List<UserDTO> getAllUser(Model model) {
+    public List<UserDTO> getAllUser() {
         return userService.listUsers().stream().map(this::convertToUserDTO)
                 .collect(Collectors.toList());//return "users";
     }
@@ -128,7 +127,7 @@ public class AdminController {
         return ResponseEntity.ok("User with ID = " + id + " deleted");
     }
 
-    //Вывести инфо о авторизованном юзере
+    //Вывести инфо об авторизованном юзере
     @PreAuthorize("permitAll()")
     @GetMapping("infoByThisUser")
     public ResponseEntity<UserDTO> show() {

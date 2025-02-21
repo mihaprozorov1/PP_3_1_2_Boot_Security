@@ -20,9 +20,9 @@ public interface UserService extends UserDetailsService {
 
     void delete(long id);
 
-    public User getInfoByUser(String email);
+    User getInfoByUser(String email);
 
-    public Role findRoleByName(String roleName);
+    Role findRoleByName(String roleName);
 
-    public List<Role> getAllRoles();
+    List<Role> getAllRoles();
 }

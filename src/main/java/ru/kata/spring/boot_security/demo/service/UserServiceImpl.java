@@ -1,8 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -50,14 +49,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void edit(User user) {
-        User existingUser = userRepository.findById(user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        existingUser.setUsername(user.getUsername());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setAge(user.getAge());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setRoles(user.getRoles());
-        userRepository.save(existingUser);
+        if (!userRepository.existsById(user.getId())) {
+            throw new IllegalArgumentException("User not found");
+        }
+        userRepository.save(user);
     }
 
     @Transactional
@@ -86,21 +81,20 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+        // Загружаем пользователя по email
+        User user = userRepository.getUserByUserEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), user.getAuthorities());
+
+        // Инициализируем ленивую коллекцию ролей
+        Hibernate.initialize(user.getRoles());
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getPassword(), user.getRoles()); // Возвращаем пользователя с инициализированными ролями
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
-    }
-
-    public User getInfoByUser(String email) {
-        User user = userRepository.getUserByUsername(email);
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", email));
-        }
-        return user;
+    public User getInfoByUser(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", email)));
     }
 
     private void enrichUser(User user) {
